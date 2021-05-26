@@ -16,7 +16,8 @@
         es_api_basic_auth_password: "{{ es_password }}"
         es_api_scheme: "https"
         es_api_host: "{{ ansible_eth1.ipv4.address }}"
-#        es_api_host: "https://elasticsearch.test.local"
+        # not validating certificates for ansible run as we are using self signed certificates.
+        es_validate_certs: no
         es_config:
           node.master: true
           node.data: true

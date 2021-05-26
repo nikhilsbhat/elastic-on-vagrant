@@ -1,9 +1,14 @@
 ---
-- name: debug
-  debug:
-    msg: "host name is {{ inventory_hostname }}"
+
+- name: Prerequisite for metricbeat installation
+  tags: [ 'copy_ca','install_metricbeat' ]
+  block:
+    - name: Setup Directories and copy certificates that are required for metricbeat
+      include_tasks: copy-dertificates.yml
+
 - name: Install and Configure metricbeat
   become: yes
+  tags: [ 'install_metricbeat' ]
   block:
     - include_role:
         name: ansible-beats
@@ -13,9 +18,6 @@
         version_lock: true
         restart_on_change: true
         beat_conf:
-#          http.enabled: true
-#          http.port: 5066
-#          http.host: "10.0.0.10"
           metricbeat.modules:
             - "{{ metricbeat_module }}"
           metricbeat.max_start_delay: 20s
@@ -39,14 +41,14 @@
         default_ilm_policy: ilm_policy.json
         output_conf:
           elasticsearch:
-            hosts: [ "https://10.0.0.10:9200" ]
+            hosts: "{{ output_elasticsearch_url }}"
             protocol: "https"
             username: "{{ es_username }}"
             password: "{{ es_password }}"
             ssl:
               verification_mode: "certificate"
               certificate_authorities:
-                - "{{ ca_path }}"
+                - "{{ certs_path }}"
         logging_conf:
           level: info
           json: true
@@ -57,11 +59,3 @@
             keepfiles: 7
             permissions: 0644
             rotateeverybytes: 31457280
-  #        file:
-  #          path: "/var/log"
-  #          filename: metricbeat.log
-  #          rotate_every_kb: 100000
-  #          number_of_files: 10
-  #          permissions: 0600
-
-  

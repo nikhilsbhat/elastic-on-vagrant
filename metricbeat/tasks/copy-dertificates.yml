@@ -1,0 +1,28 @@
+---
+- name: Create directory and copy CA certificates
+  become: yes
+  block:
+    - name: check certs directory
+      stat:
+        path: "{{ certs_dir }}"
+      register: ca_certs_dir
+      when: certs_dir is defined
+    - name: Creates required certs directories
+      file:
+        path: "{{ certs_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        recurse: yes
+      when: not ca_certs_dir.stat.exists
+    - name: Add CA certificates for metricbeat
+      copy:
+        dest: "{{ certs_dir }}/"
+        src: "{{ item }}"
+        owner: root
+        group: root
+        mode: 0444
+      when: certs_dir is defined
+      with_items:
+        - "{{ ca_path }}"

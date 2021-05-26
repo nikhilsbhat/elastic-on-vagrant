@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "site.yml"
     ansible.inventory_path = "inventory.ini"
-    ansible.verbose = "vvvv"
+#     ansible.verbose = "vvvv"
 #     ansible.tags = "install-kibana"
   end
 

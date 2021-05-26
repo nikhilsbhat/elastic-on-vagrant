@@ -1,6 +1,6 @@
 ---
 - name: Prerequisite for kibna installation
-  tags: [ "kibana_users","install-kibana" ]
+  tags: [ "kibana_users","install_kibana" ]
   block:
     - name: Setup Users and Directories for Kibana
       include_tasks: users.yml
@@ -21,7 +21,7 @@
 
 - name: Install and Configure Kibana
   become: yes
-  tags: [ "install-kibana" ]
+  tags: [ "install_kibana" ]
   block:
     - include_role:
         name: ansible-kibana
@@ -29,7 +29,7 @@
         kibana_version: "7.x"
         kibana_package: kibana-7.12.1
         kibana_package_state: present
-        kibana_elasticsearch_url: "http://10.0.0.10:9200"
+        kibana_elasticsearch_url: "https://10.0.0.10:9200"
         kibana_elasticsearch_username: "elastic"
         kibana_elasticsearch_password: "passowrd@123"
         kibana_config_template: "kibana-custom.yml.j2"

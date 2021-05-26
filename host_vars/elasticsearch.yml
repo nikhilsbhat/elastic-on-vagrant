@@ -20,4 +20,4 @@ metricbeat_module:
   ssl:
     verification_mode: "certificate"
     certificate_authorities:
-      - "{{ ca_path }}"
+      - "{{ certs_path }}"

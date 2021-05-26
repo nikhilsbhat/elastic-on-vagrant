@@ -1,7 +1,7 @@
 - name: configure elasticsearch
   hosts: elasticsearch
   roles:
-    - elasticsearch
+#    - elasticsearch
 #    - node-exporter
     - metricbeat
 
@@ -9,6 +9,6 @@
   hosts: kibana
   become: yes
   roles:
-    - kibana
+#    - kibana
     - metricbeat
 

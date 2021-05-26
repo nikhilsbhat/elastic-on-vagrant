@@ -12,3 +12,4 @@ roles/ansible-prometheus
 *.env
 *.key
 *.crt
+certs-config.yml

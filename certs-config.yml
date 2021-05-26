@@ -1,5 +1,0 @@
-instances:
-  - name: 'elasticsearch'
-    dns: [ 'elasticsearch.test.local' ]
-  - name: 'kibana'
-    dns: [ 'kibana.test.local' ]

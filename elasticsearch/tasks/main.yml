@@ -1,0 +1,32 @@
+---
+- name: Install and Configure elasticsearch
+  become: yes
+  block:
+    - include_role:
+        name: ansible-elasticsearch
+      vars:
+        es_version: "{{ elasticsearch_version }}"
+        es_enable_transport_ssl: true
+        es_enable_http_ssl: true
+        es_ssl_verification_mode: certificate
+        es_ssl_key: "{{ playbook_dir }}/certificates/elasticsearch/elasticsearch.key"
+        es_ssl_certificate: "{{ playbook_dir }}/certificates/elasticsearch/elasticsearch.crt"
+        es_ssl_certificate_authority: "{{ playbook_dir }}/certificates/ca/ca.crt"
+        es_api_basic_auth_username: "{{ es_username }}"
+        es_api_basic_auth_password: "{{ es_password }}"
+        es_api_scheme: "https"
+        es_api_host: "{{ ansible_eth1.ipv4.address }}"
+#        es_api_host: "https://elasticsearch.test.local"
+        es_config:
+          node.master: true
+          node.data: true
+          cluster.initial_master_nodes: [ "{{ ansible_eth1.ipv4.address }}" ]
+          cluster.name: "{{ es_cluster_name }}"
+          network.host: "{{ ansible_eth1.ipv4.address }}, _local_"
+          discovery.seed_hosts: [ "{{ ansible_eth1.ipv4.address }}:9300" ]
+          http.port: 9200
+          transport.port: 9300
+          xpack.monitoring.collection.enabled: false
+        es_roles: "{{ elastic_roles }}"
+        es_users: "{{ elastic_users }}"
+        es_plugins: "{{ elastic_plugins }}"

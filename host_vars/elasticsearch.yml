@@ -1,0 +1,23 @@
+---
+ca_path: "{{ playbook_dir }}/certificates/ca/ca.crt"
+metricbeat_module:
+  module: elasticsearch
+  metricsets:
+    - cluster_stats
+    - node
+    - node_stats
+    - index
+    - index_recovery
+    - index_summary
+    - shard
+  period: 10s
+  hosts: [ "https://{{ ansible_eth1.ipv4.address }}:9200" ]
+  username: "{{ es_username }}"
+  password: "{{ es_password }}"
+  index_recovery.active_only: true
+  xpack.enabled: true
+  scope: node
+  ssl:
+    verification_mode: "certificate"
+    certificate_authorities:
+      - "{{ ca_path }}"

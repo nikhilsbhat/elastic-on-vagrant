@@ -1,0 +1,14 @@
+.idea/
+.vagrant/
+elastic-data/
+certificates/backup
+certificates/elastic-certs
+elasticsearch-util/
+roles/ansible-elasticsearch
+roles/ansible-kibana
+roles/ansible-beats
+roles/ansible-node-exporter
+roles/ansible-prometheus
+*.env
+*.key
+*.crt

@@ -1,0 +1,31 @@
+---
+- name: Create Users for Kibana
+  block:
+    - name: Ensure kibana group is created.
+      become: yes
+      group:
+        state: present
+        name: "{{ kibana.group }}"
+        gid: "{{ kibana.gid }}"
+        system: yes
+
+    - name: Ensure kibana user is created.
+      become: yes
+      user:
+        state: present
+        name: "{{ kibana.user }}"
+        comment: kibana system user
+        system: yes
+        create_home: yes
+        home: /home/kibana
+        group: "{{ kibana.group }}"
+        uid: "{{ kibana.uid }}"
+
+    - name: Creates required directories
+      become: yes
+      file:
+        path: "{{ kibana_certs_path }}"
+        state: directory
+        owner: "{{ kibana.user }}"
+        group: "{{ kibana.group }}"
+        mode: 0755

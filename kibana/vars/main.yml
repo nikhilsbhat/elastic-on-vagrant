@@ -1,0 +1,17 @@
+kibana:
+  group: kibana
+  user: kibana
+  uid: 540
+  gid: 544
+
+kibana_certs_path: "/etc/kibana/certs"
+kibana_ssl_key: "{{ playbook_dir }}/certificates/kibana/kibana.key"
+kibana_ssl_certificate: "{{ playbook_dir }}/certificates/kibana/kibana.crt"
+kibana_ssl_certificate_authority: "{{ playbook_dir }}/certificates/ca/ca.crt"
+
+ssl_enabled: true
+ssl_key: "{{ kibana_certs_path }}/kibana.key"
+ssl_certificate: "{{ kibana_certs_path }}/kibana.crt"
+ssl_certificate_authority: "{{ kibana_certs_path }}/ca.crt"
+
+elasticsearch_verify_mode: certificate

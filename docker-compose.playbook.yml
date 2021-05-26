@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  generate-certificates:
+    image: "elasticsearch:${ELASTIC_VERSION}"
+    working_dir: /playbooks
+    volumes:
+      - .:/playbooks
+    command: [ "/bin/sh", "-c", "scripts/generate-certs.sh $$CERTS_DIR $$CERTS_CONFIG" ]

@@ -1,0 +1,90 @@
+es_cluster_name: "sample-cluster"
+elasticsearch_version: 7.12.1
+es_username: "elastic"
+es_password: "passowrd@123"
+
+elastic_plugins:
+  - plugin: https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/7.12.1.0/prometheus-exporter-7.12.1.0.zip
+
+elastic_roles:
+  native:
+    test_view_role:
+      cluster:
+        - monitor
+        - read_ilm
+      indices:
+        - names: '*'
+          privileges:
+            - read
+            - monitor
+            - view_index_metadata
+      applications:
+        - application: 'kibana-.kibana'
+          privileges:
+            - read
+          resources:
+            - "*"
+    test_manage_role:
+      cluster:
+        - manage
+        - manage_ilm
+        - manage_index_templates
+        - manage_pipeline
+        - manage_ingest_pipelines
+      indices:
+        - names: '*'
+          privileges:
+            - read
+            - view_index_metadata
+            - manage
+            - manage_ilm
+            - manage_follow_index
+            - manage_leader_index
+      applications:
+        - application: 'kibana-.kibana'
+          privileges:
+            - read
+            - feature_indexPatterns.all
+          resources:
+            - "*"
+    test_admin_role:
+      cluster:
+        - all
+      indices:
+        - names: '*'
+          privileges:
+            - all
+          allow_restricted_indices: true
+      applications:
+        - application: '*'
+          privileges:
+            - all
+          resources:
+            - "*"
+
+elastic_users:
+  native:
+    test_guest_user:
+      password: password@12345
+      full_name: "guest user"
+      email: "guest@test.com"
+      roles:
+        - test_view_role
+    test_privileged_user:
+      password: password@12345
+      full_name: "test privileged user"
+      email: "testprivileged@test.com"
+      roles:
+        - test_manage_role
+    test_k8s_user:
+      password: password@12345
+      full_name: "test k8s user"
+      email: "testk8s@test.com"
+      roles:
+        - test_manage_role
+    test_admin_user:
+      password: password@12345
+      full_name: "test admin user"
+      email: "testadmin@test.com"
+      roles:
+        - test_admin_role

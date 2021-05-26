@@ -1,0 +1,67 @@
+---
+- name: debug
+  debug:
+    msg: "host name is {{ inventory_hostname }}"
+- name: Install and Configure metricbeat
+  become: yes
+  block:
+    - include_role:
+        name: ansible-beats
+      vars:
+        beat: "metricbeat"
+        beats_version: "{{ metricbeat_version }}"
+        version_lock: true
+        restart_on_change: true
+        beat_conf:
+#          http.enabled: true
+#          http.port: 5066
+#          http.host: "10.0.0.10"
+          metricbeat.modules:
+            - "{{ metricbeat_module }}"
+          metricbeat.max_start_delay: 20s
+          timeseries.enabled: true
+          setup:
+            ilm:
+              enabled: true
+              policy_name: manage-monitoring-logs
+              rollover_alias: "metricbeat-logs"
+              pattern: "000001"
+              overwrite: true
+              policy_file: /etc/metricbeat/policies/ilm_policy.json
+        #            kibana:
+        #              host: "http://10.0.0.11:5601"
+        #              protocol: http
+        #              path: ""
+        #              username: "{{ es_username }}"
+        #              password: "{{ es_password }}"
+        #            dashboards:
+        #              enabled: true
+        default_ilm_policy: ilm_policy.json
+        output_conf:
+          elasticsearch:
+            hosts: [ "https://10.0.0.10:9200" ]
+            protocol: "https"
+            username: "{{ es_username }}"
+            password: "{{ es_password }}"
+            ssl:
+              verification_mode: "certificate"
+              certificate_authorities:
+                - "{{ ca_path }}"
+        logging_conf:
+          level: info
+          json: true
+          to_files: true
+          files:
+            path: /var/log/metricbeat
+            name: metricbeat.log
+            keepfiles: 7
+            permissions: 0644
+            rotateeverybytes: 31457280
+  #        file:
+  #          path: "/var/log"
+  #          filename: metricbeat.log
+  #          rotate_every_kb: 100000
+  #          number_of_files: 10
+  #          permissions: 0600
+
+  

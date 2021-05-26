@@ -1,0 +1,5 @@
+---
+metricbeat_version: 7.12.1
+es_url: ""
+es_username: "elastic"
+es_password: "passowrd@123"

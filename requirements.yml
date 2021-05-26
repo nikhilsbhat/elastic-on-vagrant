@@ -1,0 +1,11 @@
+- src: https://github.com/geerlingguy/ansible-role-kibana.git
+  name: ansible-kibana
+
+- src: https://github.com/elastic/ansible-elasticsearch/archive/refs/tags/v7.12.1.tar.gz
+  name: ansible-elasticsearch
+
+- src: https://github.com/elastic/ansible-beats/archive/refs/tags/v7.12.1.tar.gz
+  name: ansible-beats
+
+- src: https://github.com/cloudalchemy/ansible-node-exporter/archive/refs/tags/0.22.0.tar.gz
+  name: ansible-node-exporter

@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
     elasticsearch.vm.hostname = "elasticsearch"
     elasticsearch.vm.network "private_network", ip: "10.0.0.10"
     elasticsearch.vm.provider "virtualbox" do |v|
-      v.memory = 2048
+      v.memory = 4096
       v.cpus = 2
     end
   end

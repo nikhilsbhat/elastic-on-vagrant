@@ -1,6 +1,8 @@
 ELASTICSEARCH_VERSION="7.12.1"
 CERTS_ROOT_DIR="certificates"
 CERTS_CONFIG_FILENAME="certs-config"
+ELASTICSEARCH_URL="https://elasticsearch.test.local:9200"
+CA_CERT_PATH="../playbooks/certificates/ca/ca.crt"
 
 define CERTS_CONFIG
 instances:
@@ -32,3 +34,6 @@ generate_certs_config: ## Writes certs config to a desired file( defaults to cer
 
 generate_envs:
 	echo "$$ENVS" > .env
+
+elastic_stress_test: ## Run stress test on elasticsearch, utility usage can be found here https://github.com/nikhilsbhat/elasticsearch-stress-test
+	scripts/run-elasticsearch-stress-test.sh $(ELASTICSEARCH_URL) $(CA_CERT_PATH) "elastic" "passowrd@123"

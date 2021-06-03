@@ -1,11 +1,11 @@
 function generate_certs() {
-    cert_config=$1
-    local config_content
-    config_content=$(cat "/playbooks/$cert_config.yml")
+  cert_config=$1
+  local config_content
+  config_content=$(cat "/playbooks/$cert_config.yml")
 
-    mkdir -p /tmp/certs
-    echo "generating certificates under /tmp/certs/certs.zip with config $config_content"
-    elasticsearch-certutil cert --keep-ca-key --pem --in "/playbooks/$cert_config".yml --out /tmp/certs/certs.zip
+  mkdir -p /tmp/certs
+  echo "generating certificates under /tmp/certs/certs.zip with config $config_content"
+  elasticsearch-certutil cert --keep-ca-key --pem --in "/playbooks/$cert_config".yml --out /tmp/certs/certs.zip
 }
 
 function extract_certs() {
@@ -30,7 +30,7 @@ function main() {
 
   extract_certs "$certificates_root_dir"
   extract_certs_status=$?
-    if [ $extract_certs_status -ne 0 ]; then
+  if [ $extract_certs_status -ne 0 ]; then
     echo "extracting generated certificates failed"
     exit 1
   else
